@@ -1,10 +1,10 @@
-public class Asensor {
+public class Ascensor {
     private int PisoActual;
     private final int PISO_MAXIMO;
     private final int PISO_MINIMO;
     private final float CargaMaxima;
 
-    public Asensor(int pisoActual, int pISO_MAXIMO, int pISO_MINIMO, float cargaMaxima) {
+    public Ascensor(int pisoActual, int pISO_MAXIMO, int pISO_MINIMO, float cargaMaxima) {
         PisoActual = pisoActual;
         PISO_MAXIMO = pISO_MAXIMO;
         PISO_MINIMO = pISO_MINIMO;
@@ -27,7 +27,9 @@ public class Asensor {
         return CargaMaxima;
     }
 
-    
+    public void SubirPiso(){
+        
+    }
 
     
     
