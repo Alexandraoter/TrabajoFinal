@@ -1,36 +1,79 @@
+import java.util.List;
+
 public class Ascensor {
-    /*private int PisoActual;
-    private final int PISO_MAXIMO;
-    private final int PISO_MINIMO;
-    private final float CargaMaxima;
+    private int pisoActual;
+    private boolean subiendo;
+    private List<Boton> botones; // Lista de botones del ascensor
+    private Puerta puerta;
+    private Botonera botonera;
+    private EstadoAscensor estado;
 
-    public Ascensor(int pisoActual, int pISO_MAXIMO, int pISO_MINIMO, float cargaMaxima) {
-        PisoActual = pisoActual;
-        PISO_MAXIMO = pISO_MAXIMO;
-        PISO_MINIMO = pISO_MINIMO;
-        CargaMaxima = cargaMaxima;
-    }
-
-    public int getPisoActual() {
-        return PisoActual;
-    }
-
-    public int getPISO_MAXIMO() {
-        return PISO_MAXIMO;
-    }
-
-    public int getPISO_MINIMO() {
-        return PISO_MINIMO;
-    }
-
-    public float getCargaMaxima() {
-        return CargaMaxima;
-    }
-
-    public void SubirPiso(){
-        
+    public Ascensor(int pisoInicial, Puerta puerta, Botonera botonera) {
+        this.pisoActual = pisoInicial;
+        this.puerta = puerta;
+        this.botonera = botonera;
     }
 
     
-    */
+
+    public int getPisoActual() {
+        return pisoActual;
+    }
+
+
+
+    public boolean isSubiendo() {
+        return subiendo;
+    }
+
+
+
+    public Puerta getPuerta() {
+        return puerta;
+    }
+
+
+
+    public Botonera getBotonera() {
+        return botonera;
+    }
+
+
+
+    public EstadoAscensor getEstado() {
+        return estado;
+    }
+
+    public List<Boton> getBotones() {
+        return botones;
+    }
+
+    public void moverAlPiso(int pisoDestino) {
+        // Lógica para mover el ascensor al piso destino
+        subiendo = pisoDestino > pisoActual;
+        // ... implementación del movimiento, considerando obstáculos, tiempo, etc.
+        pisoActual = pisoDestino;
+    }
+
+    public void abrirPuerta() {
+        puerta.abrir();
+    }
+
+    public void cerrarPuerta() {
+        puerta.cerrar();
+    }
+
+    public void procesarSolicitud(Boton boton) {
+        int pisoDestino = boton.getId();
+        moverAlPiso(pisoDestino);
+    }
+
+    public boolean sistemaDireccionFunciona() {
+        return true; // Ejemplo: retornar true si el sistema funciona correctamente
+    }
+
+    public void parar() {
+        // Lógica para detener el ascensor, como cambiar el estado a detenido
+        estado = EstadoAscensor.PARADO;
+    }
 }

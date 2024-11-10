@@ -1,5 +1,4 @@
 public class BotonAsensor extends Boton {
-    // Atributo adicional para el piso destino
     private int pisoDestino;
 
     public BotonAsensor(boolean estado, boolean sonidoAct, int id, boolean presionado, boolean iluminado,

@@ -58,6 +58,11 @@ public class Boton {
         presionado = false;
         iluminado = false;
     }
+    
+    public boolean estaFuncionando() {
+        // Lógica para verificar el estado del botón
+        return true; // Ejemplo: retornar true si está funcionando correctamente
+    }
 
     
 
