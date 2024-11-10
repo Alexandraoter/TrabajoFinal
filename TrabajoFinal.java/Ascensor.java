@@ -1,5 +1,5 @@
 public class Ascensor {
-    private int PisoActual;
+    /*private int PisoActual;
     private final int PISO_MAXIMO;
     private final int PISO_MINIMO;
     private final float CargaMaxima;
@@ -32,5 +32,5 @@ public class Ascensor {
     }
 
     
-    
+    */
 }
