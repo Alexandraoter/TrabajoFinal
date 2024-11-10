@@ -1,45 +1,24 @@
 public class BotonPiso extends Boton {
-    private int PisoActual;
-    private final int Piso_Maximo;
-    private final int Piso_Minimo;
-    
+    private int pisoActual;
 
-    //Constructor
-    
-    public BotonPiso(boolean estado, boolean sonidoAct, int id, boolean presionado, boolean iluminado,
-            boolean bloqueado, TipoBoton tipo, int pisoActual, int piso_Maximo, int piso_Minimo) {
-        super(estado, sonidoAct, id, presionado, iluminado, bloqueado, tipo);
-        PisoActual = pisoActual;
-        Piso_Maximo = piso_Maximo;
-        Piso_Minimo = piso_Minimo;
-        
+    public BotonPiso(int id, TipoBoton tipo, int pisoActual) {
+        super(id, tipo);
+        this.pisoActual = pisoActual;
     }
 
-    //Getter
     public int getPisoActual() {
-        return PisoActual;
-    }
-    
-    public int getPiso_Maximo() {
-        return Piso_Maximo;
-    }
-    public int getPiso_Minimo() {
-        return Piso_Minimo;
+        return pisoActual;
     }
 
-    //Metodos de funcionamiento
-    public void SubirPiso(){
-        if(PisoActual<Piso_Maximo){
-            PisoActual++;
-        }
+    @Override
+    public boolean estaFuncionando() {
+        // Implementación específica para verificar el estado de funcionamiento del botón
+        return true;
     }
 
-    public void BajarPiso(){
-        if(PisoActual>Piso_Minimo){
-        PisoActual--;
-        }
+    @Override
+    public void presionar() {
+        super.presionar();
+        System.out.println("Solicitud en el piso " + pisoActual);
     }
-
-
-    
 }

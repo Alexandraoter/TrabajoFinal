@@ -1,24 +1,18 @@
-public class Boton {
-    private boolean sonidoAct; 
-    private int id;// identifica cada boton independientemente
+public abstract class Boton {
+    private boolean sonidoAct;
+    private int id;
     private boolean presionado;
     private boolean iluminado;
     private boolean bloqueado;
     private TipoBoton tipo;
 
-    public Boton(boolean estado, boolean sonidoAct, int id, boolean presionado, boolean iluminado, boolean bloqueado,
-            TipoBoton tipo) {
+    public Boton(int id, TipoBoton tipo) {
         this.sonidoAct = false;
         this.id = id;
         this.presionado = false;
         this.iluminado = false;
         this.bloqueado = false;
         this.tipo = tipo;
-    }
-
-    //esta preguntando sí el metodo esta o no en funcionamiento
-    public boolean isSonidoAct() {
-        return sonidoAct;
     }
 
     public int getId() {
@@ -41,29 +35,20 @@ public class Boton {
         return tipo;
     }
 
-    
     public void presionar() {
         if (!bloqueado) {
             presionado = true;
             iluminado = true;
-            // Aquí se realizarían las acciones específicas al presionar el botón,
-            // como enviar una señal al sistema de control del ascensor
-        }else{
-            System.out.println("No precionaste bien el boton, intentalo nuevamente");
+            System.out.println("Botón " + tipo + " con ID " + id + " presionado.");
+        } else {
+            System.out.println("Botón bloqueado, no se puede presionar.");
         }
     }
 
-    // Método para soltar el botón
     public void soltar() {
         presionado = false;
         iluminado = false;
     }
-    
-    public boolean estaFuncionando() {
-        // Lógica para verificar el estado del botón
-        return true; // Ejemplo: retornar true si está funcionando correctamente
-    }
 
-    
-
-}  
+    public abstract boolean estaFuncionando(); // Método abstracto para herencia
+}

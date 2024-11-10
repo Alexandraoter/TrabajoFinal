@@ -10,9 +10,12 @@ public class Puerta {
         abierta = false;
         System.out.println("Puerta cerrada");
     }
+
     public boolean estaFuncionando() {
-        // Lógica para verificar el estado de la puerta
-        return true; // Ejemplo: retornar true si está funcionando correctamente
+        return true; // Ejemplo de verificación del funcionamiento
+    }
+
+    public boolean isAbierta() {
+        return abierta;
     }
 }
-

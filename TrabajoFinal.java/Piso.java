@@ -1,73 +1,19 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class Piso {
     private int numeroPiso;
-    private List<Boton> botones;
-    private final float CargaMaxima;
-    private int ocupantes;
-    private boolean solicitudSubir;
-    private boolean solicitudBajar;
-    private boolean requiereMantenimiento;
-    private boolean enMantenimiento;
+    private Boton botonSubir;
+    private Boton botonBajar;
 
-    public Piso(int numeroPiso, List<Boton> botones, float cargaMaxima, int ocupantes,
-            boolean solicitudSubir, boolean solicitudBajar, boolean requiereMantenimiento, boolean enMantenimiento) {
+    public Piso(int numeroPiso) {
         this.numeroPiso = numeroPiso;
-        this.botones = botones;
-        CargaMaxima = 0.0f;
-        this.ocupantes = ocupantes;
-        this.solicitudSubir = solicitudSubir;
-        this.solicitudBajar = solicitudBajar;
-        this.requiereMantenimiento = requiereMantenimiento;
-        this.enMantenimiento = enMantenimiento;
+        this.botonSubir = new BotonPiso(numeroPiso * 2, TipoBoton.PISO, numeroPiso);
+        this.botonBajar = new BotonPiso(numeroPiso * 2 + 1, TipoBoton.PISO, numeroPiso);
     }
 
     public void presionarBotonSubir() {
-        if (!enMantenimiento) {
-            solicitudSubir = true;
-        }
+        botonSubir.presionar();
     }
 
     public void presionarBotonBajar() {
-        if (!enMantenimiento) {
-            solicitudBajar = true;
-        }
+        botonBajar.presionar();
     }
-
-    public void agregarOcupante() {
-        if (ocupantes < CargaMaxima) {
-            ocupantes++;
-        }
-    }
-
-    public void quitarOcupante() {
-        if (ocupantes > 0) {
-            ocupantes--;
-        }
-    }
-
-    public boolean estaLleno() {
-        return ocupantes == CargaMaxima;
-    }
-
-    public void marcarComoMantenimiento() {
-        enMantenimiento = true;
-        limpiarSolicitudes();
-    }
-
-    public void finalizarMantenimiento() {
-        enMantenimiento = false;
-    }
-
-    public boolean haySolicitud() {
-        return solicitudSubir || solicitudBajar;
-    }
-
-    public void limpiarSolicitudes() {
-        solicitudSubir = false;
-        solicitudBajar = false;
-    }
-    
-
 }

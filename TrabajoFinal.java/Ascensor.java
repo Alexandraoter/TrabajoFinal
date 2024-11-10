@@ -1,58 +1,40 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Ascensor {
     private int pisoActual;
     private boolean subiendo;
-    private List<Boton> botones; // Lista de botones del ascensor
     private Puerta puerta;
     private Botonera botonera;
     private EstadoAscensor estado;
 
-    public Ascensor(int pisoInicial, Puerta puerta, Botonera botonera) {
+    public Ascensor(int pisoInicial, Puerta puerta, int cantidadPisos) {
         this.pisoActual = pisoInicial;
         this.puerta = puerta;
-        this.botonera = botonera;
-    }
+        this.botonera = new Botonera(); // Inicializa la botonera del ascensor
+        this.estado = EstadoAscensor.PARADO;
 
-    
+        // Crear botones de piso en la botonera del ascensor usando la clase BotonAscensor
+        for (int i = 1; i <= cantidadPisos; i++) {
+            Boton botonPiso = new BotonAscensor(i, i); // Usar la clase correcta BotonAscensor
+            botonera.agregarBoton(botonPiso);
+        }
+    }
 
     public int getPisoActual() {
         return pisoActual;
     }
 
-
-
-    public boolean isSubiendo() {
-        return subiendo;
-    }
-
-
-
     public Puerta getPuerta() {
         return puerta;
     }
 
-
-
-    public Botonera getBotonera() {
-        return botonera;
-    }
-
-
-
-    public EstadoAscensor getEstado() {
-        return estado;
-    }
-
-    public List<Boton> getBotones() {
-        return botones;
-    }
-
     public void moverAlPiso(int pisoDestino) {
-        // Lógica para mover el ascensor al piso destino
         subiendo = pisoDestino > pisoActual;
-        // ... implementación del movimiento, considerando obstáculos, tiempo, etc.
+        estado = EstadoAscensor.MOVIENDO;
+        System.out.println("Ascensor en movimiento al piso " + pisoDestino);
         pisoActual = pisoDestino;
+        estado = EstadoAscensor.PARADO;
     }
 
     public void abrirPuerta() {
@@ -63,17 +45,12 @@ public class Ascensor {
         puerta.cerrar();
     }
 
-    public void procesarSolicitud(Boton boton) {
-        int pisoDestino = boton.getId();
+    public void procesarSolicitud(int pisoDestino) {
         moverAlPiso(pisoDestino);
-    }
-
-    public boolean sistemaDireccionFunciona() {
-        return true; // Ejemplo: retornar true si el sistema funciona correctamente
+        abrirPuerta();
     }
 
     public void parar() {
-        // Lógica para detener el ascensor, como cambiar el estado a detenido
         estado = EstadoAscensor.PARADO;
     }
 }
