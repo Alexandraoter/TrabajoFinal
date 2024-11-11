@@ -3,10 +3,21 @@ import java.util.List;
 
 public class Botonera {
     private List<Boton> botones;
+    private int cantidadPisos;
 
-    public Botonera() {
+    public Botonera(int cantidadPisos) { 
         botones = new ArrayList<>();
+        this.botones = new ArrayList<>(); this.cantidadPisos = cantidadPisos;
+      
     }
+
+    
+
+    public int getCantidadPisos() {
+        return cantidadPisos;
+    }
+
+
 
     public void agregarBoton(Boton boton) {
         botones.add(boton);

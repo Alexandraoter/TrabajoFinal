@@ -1,19 +1,13 @@
 public class BotonPiso extends Boton {
     private int pisoActual;
 
-    public BotonPiso(int id, TipoBoton tipo, int pisoActual) {
-        super(id, tipo);
+    public BotonPiso(int id, EstadoAscensor tipo, int pisoActual) {
+        super(false, id, false, false, false, EstadoAscensor.PISO);
         this.pisoActual = pisoActual;
     }
 
     public int getPisoActual() {
         return pisoActual;
-    }
-
-    @Override
-    public boolean estaFuncionando() {
-        // Implementación específica para verificar el estado de funcionamiento del botón
-        return true;
     }
 
     @Override

@@ -4,9 +4,9 @@ public abstract class Boton {
     private boolean presionado;
     private boolean iluminado;
     private boolean bloqueado;
-    private TipoBoton tipo;
+    private EstadoAscensor tipo;
 
-    public Boton(int id, TipoBoton tipo) {
+    public Boton(boolean sonidoAct, int id, boolean presionado, boolean iluminado, boolean bloqueado, EstadoAscensor tipo) {
         this.sonidoAct = false;
         this.id = id;
         this.presionado = false;
@@ -31,7 +31,7 @@ public abstract class Boton {
         return bloqueado;
     }
 
-    public TipoBoton getTipo() {
+    public EstadoAscensor getTipo() {
         return tipo;
     }
 
@@ -39,16 +39,19 @@ public abstract class Boton {
         if (!bloqueado) {
             presionado = true;
             iluminado = true;
-            System.out.println("Botón " + tipo + " con ID " + id + " presionado.");
+            System.out.println("Botón " + tipo + " con ID " + id + " ha sido presionado y esta iluminado");
         } else {
             System.out.println("Botón bloqueado, no se puede presionar.");
         }
     }
 
     public void soltar() {
-        presionado = false;
-        iluminado = false;
+        if (presionado){
+            presionado=false;
+            iluminado=false;
+            System.out.println("El botón con ID: " + id + " ha sido soltado y ya no está iluminado.");
+        }else{
+            System.out.println("El botón ya no estaba presionado");
+        }
     }
-
-    public abstract boolean estaFuncionando(); // Método abstracto para herencia
 }

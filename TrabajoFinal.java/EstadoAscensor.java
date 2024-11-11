@@ -1,5 +1,7 @@
 public enum EstadoAscensor {
     PARADO,
     MOVIENDO,
-    MANTENIMIENTO
+    MANTENIMIENTO,
+    PISO,
+    EMERGENCIA
 }
