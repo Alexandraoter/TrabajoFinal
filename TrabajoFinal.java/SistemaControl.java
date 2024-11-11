@@ -1,7 +1,7 @@
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 public class SistemaControl {
     private List<Ascensor> ascensores;
@@ -96,3 +96,4 @@ public class SistemaControl {
         System.out.println("Alerta: " + mensaje);
     }
 }
+

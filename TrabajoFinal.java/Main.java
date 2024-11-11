@@ -46,6 +46,7 @@ public class Main {
         sistemaControl.solicitarAscensor(2, 5);
         // Activar indicadores para los botones presionados
         activarIndicadores(ascensor1, 2, 5);
+
     }
 
     // Método para activar los indicadores luminosos y sonoros en los botones
@@ -76,5 +77,9 @@ public class Main {
         if (botonDestino != null) {
             botonDestino.soltar();
         }
+
+        
+
+        
     }
 }
