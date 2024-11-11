@@ -1,6 +1,7 @@
 public class Puerta {
     private boolean abierta;
 
+
     public void abrir() {
         abierta = true;
         System.out.println("Puerta abierta");

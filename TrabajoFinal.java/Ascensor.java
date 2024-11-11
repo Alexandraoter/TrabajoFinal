@@ -25,6 +25,11 @@ public class Ascensor {
     public Puerta getPuerta() {
         return puerta;
     }
+    
+
+    public Botonera getBotonera() {
+        return botonera;
+    }
 
     // Método para mover el ascensor hacia el piso destino
     public void moverAlPiso(int pisoDestino) {

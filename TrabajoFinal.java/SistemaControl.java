@@ -30,6 +30,14 @@ public class SistemaControl {
         }
     }
 
+    
+
+    public List<Ascensor> getAscensores() {
+        return ascensores;
+    }
+
+
+
     public void solicitarAscensor(int pisoActual, int pisoDestino) {
         if (pisoActual < 1 || pisoActual > cantidadPisos || pisoDestino < 1 || pisoDestino > cantidadPisos) {
             System.out.println("Error: piso incorrecto.");

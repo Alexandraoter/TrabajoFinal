@@ -38,20 +38,22 @@ public abstract class Boton {
     public void presionar() {
         if (!bloqueado) {
             presionado = true;
-            iluminado = true;
-            System.out.println("Botón " + tipo + " con ID " + id + " ha sido presionado y esta iluminado");
+            iluminado = true;   // Encendemos el indicador luminoso
+            sonidoAct = true;   // Activamos el sonido
+            System.out.println("Botón " + tipo + " con ID " + id + " ha sido presionado. Indicador luminoso activado y sonido activado.");
         } else {
             System.out.println("Botón bloqueado, no se puede presionar.");
         }
     }
 
     public void soltar() {
-        if (presionado){
-            presionado=false;
-            iluminado=false;
-            System.out.println("El botón con ID: " + id + " ha sido soltado y ya no está iluminado.");
-        }else{
-            System.out.println("El botón ya no estaba presionado");
+        if (presionado) {
+            presionado = false;
+            iluminado = false;  // Apagamos el indicador luminoso
+            sonidoAct = false;  // Desactivamos el sonido
+            System.out.println("El botón con ID " + id + " ha sido soltado. Indicador luminoso desactivado y sonido desactivado.");
+        } else {
+            System.out.println("El botón ya no estaba presionado.");
         }
     }
 }
