@@ -49,9 +49,7 @@ public class Ascensor {
 
     public void activarPuertasAbiertas() {
         if (!puertasAbiertas) {
-            puerta.abrir();
-            puertasAbiertas = true;
-            System.out.println("Las puertas permanecerán abiertas.");
+            abrirPuerta();
         } else {
             System.out.println("Las puertas ya están abiertas.");
         }
@@ -59,26 +57,21 @@ public class Ascensor {
 
     public void desactivarPuertasAbiertas() {
         if (puertasAbiertas) {
-            puerta.cerrar();
-            puertasAbiertas = false;
-            System.out.println("Las puertas se han cerrado.");
-        } else {
-            System.out.println("Las puertas ya están cerradas.");
-        }
-    }
-
-    public void presionarBotonPuertasAbiertas() {
-        if (puertasAbiertas) {
             cerrarPuerta();
         } else {
-            abrirPuerta();
+            System.out.println("Las puertas ya están cerradas.");
         }
     }
 
     // Método para mover el ascensor hacia el piso destino
     public void moverAlPiso(int pisoDestino) {
         if (pisoDestino < 0 || pisoDestino > botonera.getCantidadPisos()) {
-            System.out.println("Error: piso incorrecto");
+            System.out.println("Error: piso incorrecto, intenta nuevamente");
+            return;
+        }
+
+        if (pisoDestino == pisoActual) {
+            System.out.println("Ya se encuentra en el piso solicitado.");
             return;
         }
 
@@ -86,17 +79,21 @@ public class Ascensor {
         if (pisoDestino > pisoActual) {
             subiendo = true;
             estado = EstadoAscensor.MOVIENDO;
+            cerrarPuerta();  // Asegurar que la puerta se cierra antes de moverse
             System.out.println("El ascensor está subiendo al piso " + pisoDestino);
             pisoActual = pisoDestino;  // Actualizamos el piso actual
             System.out.println("El ascensor ha llegado al piso " + pisoActual);
+            abrirPuerta();  // Asegurar que la puerta se abre al llegar
         }
         // Si el destino es más bajo
         else if (pisoDestino < pisoActual) {
-            subiendo = false; // Aseguramos que el ascensor baje
+            subiendo = false;
             estado = EstadoAscensor.MOVIENDO;
+            cerrarPuerta();  // Asegurar que la puerta se cierra antes de moverse
             System.out.println("El ascensor está bajando al piso " + pisoDestino);
             pisoActual = pisoDestino;  // Actualizamos el piso actual
             System.out.println("El ascensor ha llegado al piso " + pisoActual);
+            abrirPuerta();  // Asegurar que la puerta se abre al llegar
         }
         // Si ya está en el piso destino
         else {
@@ -106,22 +103,26 @@ public class Ascensor {
 
     // Método para abrir las puertas
     public void abrirPuerta() {
-        puerta.abrir();
-        puertasAbiertas = true;
-        System.out.println("Puerta abierta");
+        if (!puertasAbiertas) {
+            puerta.abrir();
+            puertasAbiertas = true;
+            System.out.println("Puerta abierta");
+        }
     }
 
     // Método para cerrar las puertas
     public void cerrarPuerta() {
-        puerta.cerrar();
-        puertasAbiertas = false;
-        System.out.println("Puerta cerrada");
+        if (!puerta.isObstaculoPresente()) {
+            puerta.cerrar();
+            puertasAbiertas = false;
+        }else{
+            System.out.println("No se puede cerrar la puerta, se ha detectado un obstáculo ");
+        }
     }
 
     // Procesar solicitud de un piso destino
     public void procesarSolicitud(int pisoDestino) {
         moverAlPiso(pisoDestino);  // Mueve el ascensor al piso destino
-        abrirPuerta();  // Abre las puertas al llegar
     }
 
     // Detener el ascensor

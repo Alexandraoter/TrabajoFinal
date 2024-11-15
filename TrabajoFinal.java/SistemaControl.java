@@ -32,17 +32,17 @@ public class SistemaControl {
         }
     }
 
-    
-
     public List<Ascensor> getAscensores() {
         return ascensores;
     }
 
-
-
     public void solicitarAscensor(int pisoActual, int pisoDestino) {
-        if (pisoActual < 1 || pisoActual > cantidadPisos || pisoDestino < 1 || pisoDestino > cantidadPisos) {
-            System.out.println("Error: piso incorrecto.");
+        if (pisoActual < 1 || pisoActual > cantidadPisos) {
+            System.out.println("Error, el piso actual " + pisoActual + " es invalido porque debe estar entre el piso 1 y " + cantidadPisos + ".");
+            return;
+        }
+        if (pisoActual < 1 || pisoActual > cantidadPisos){
+            System.out.println("Error, el piso de destino " + pisoDestino + "es inválido porque debe estar entre el piso 1 y " + cantidadPisos + ".");
             return;
         }
 
@@ -69,15 +69,7 @@ public class SistemaControl {
             ascensor.procesarSolicitud(siguientePiso);
         }
     }
-
-    // Cambia la dirección del ascensor si es necesario
-    public void cambiarDireccion(Ascensor ascensor) {
-        if (solicitudesSubir.isEmpty() && !solicitudesBajar.isEmpty()) {
-            ascensor.moverAlPiso(solicitudesBajar.poll());
-        } else if (solicitudesBajar.isEmpty() && !solicitudesSubir.isEmpty()) {
-            ascensor.moverAlPiso(solicitudesSubir.poll());
-        }
-    }
+    
 
     public void gestionarEmergencia() {
         for (Ascensor ascensor : ascensores) {
