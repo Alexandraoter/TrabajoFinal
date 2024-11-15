@@ -10,6 +10,7 @@ public class SistemaControl {
     private final int cantidadAscensores;
     private Queue<Integer> solicitudesSubir;
     private Queue<Integer> solicitudesBajar;
+    private boolean enEmergencia;
 
     public SistemaControl(int cantidadPisos, int cantidadAscensores) {
         this.cantidadPisos = cantidadPisos;
@@ -17,6 +18,7 @@ public class SistemaControl {
         this.ascensores = new ArrayList<>();
         this.solicitudesSubir = new LinkedList<>();
         this.solicitudesBajar = new LinkedList<>();
+        this.enEmergencia = false;
         
         // Inicializa los ascensores
         for (int i = 0; i < cantidadAscensores; i++) {
@@ -84,12 +86,17 @@ public class SistemaControl {
         }
     }
 
+
     public void monitorearSistema() {
         for (Ascensor ascensor : ascensores) {
             if (!ascensor.getPuerta().estaFuncionando()) {
                 generarAlerta("Falla en la puerta del ascensor en piso " + ascensor.getPisoActual());
             }
         }
+    }
+
+    public boolean estaEnEmergencia() {
+        return enEmergencia;  // Retorna si el sistema está en emergencia o no
     }
 
     public void generarAlerta(String mensaje) {

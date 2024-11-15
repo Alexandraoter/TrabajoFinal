@@ -4,18 +4,27 @@ public class Ascensor {
     private Puerta puerta;
     private Botonera botonera;
     private EstadoAscensor estado;
+    private boolean puertasAbiertas;
+
+    // Agregar un botón especial para mantener las puertas abiertas
+    private Boton botonPuertasAbiertas;
 
     public Ascensor(int pisoActual, Puerta puerta, int cantidadPisos) {
         this.pisoActual = pisoActual;
         this.puerta = puerta;
         this.botonera = new Botonera(cantidadPisos); // Inicializa la botonera del ascensor
         this.estado = EstadoAscensor.PARADO;
+        this.puertasAbiertas = false;
 
-        // Crear botones de piso en la botonera del ascensor usando la clase BotonAscensor
+        // Inicializar los botones para cada piso
         for (int i = 1; i <= cantidadPisos; i++) {
-            Boton botonPiso = new BotonAscensor(i, i, this); // Usar la clase correcta BotonAscensor
+            Boton botonPiso = new BotonAscensor(i, i, this);
             botonera.agregarBoton(botonPiso);
         }
+
+        // Inicializar el botón para mantener las puertas abiertas
+        this.botonPuertasAbiertas = new BotonPuertasAbiertas(999, this); // ID 999 para el botón especial
+        botonera.agregarBoton(botonPuertasAbiertas);
     }
 
     public int getPisoActual() {
@@ -25,10 +34,45 @@ public class Ascensor {
     public Puerta getPuerta() {
         return puerta;
     }
-    
 
     public Botonera getBotonera() {
         return botonera;
+    }
+
+    public void alternarPuertas() {
+        if (puertasAbiertas) {
+            cerrarPuerta();
+        } else {
+            abrirPuerta();
+        }
+    }
+
+    public void activarPuertasAbiertas() {
+        if (!puertasAbiertas) {
+            puerta.abrir();
+            puertasAbiertas = true;
+            System.out.println("Las puertas permanecerán abiertas.");
+        } else {
+            System.out.println("Las puertas ya están abiertas.");
+        }
+    }
+
+    public void desactivarPuertasAbiertas() {
+        if (puertasAbiertas) {
+            puerta.cerrar();
+            puertasAbiertas = false;
+            System.out.println("Las puertas se han cerrado.");
+        } else {
+            System.out.println("Las puertas ya están cerradas.");
+        }
+    }
+
+    public void presionarBotonPuertasAbiertas() {
+        if (puertasAbiertas) {
+            cerrarPuerta();
+        } else {
+            abrirPuerta();
+        }
     }
 
     // Método para mover el ascensor hacia el piso destino
@@ -43,7 +87,6 @@ public class Ascensor {
             subiendo = true;
             estado = EstadoAscensor.MOVIENDO;
             System.out.println("El ascensor está subiendo al piso " + pisoDestino);
-            // Simulamos que el ascensor llega al destino
             pisoActual = pisoDestino;  // Actualizamos el piso actual
             System.out.println("El ascensor ha llegado al piso " + pisoActual);
         }
@@ -52,7 +95,6 @@ public class Ascensor {
             subiendo = false; // Aseguramos que el ascensor baje
             estado = EstadoAscensor.MOVIENDO;
             System.out.println("El ascensor está bajando al piso " + pisoDestino);
-            // Simulamos que el ascensor llega al destino
             pisoActual = pisoDestino;  // Actualizamos el piso actual
             System.out.println("El ascensor ha llegado al piso " + pisoActual);
         }
@@ -60,19 +102,20 @@ public class Ascensor {
         else {
             System.out.println("El ascensor ya está en el piso " + pisoDestino);
         }
-
-        // Al llegar al destino, abrimos las puertas
-        abrirPuerta();
     }
 
     // Método para abrir las puertas
     public void abrirPuerta() {
         puerta.abrir();
+        puertasAbiertas = true;
+        System.out.println("Puerta abierta");
     }
 
     // Método para cerrar las puertas
     public void cerrarPuerta() {
         puerta.cerrar();
+        puertasAbiertas = false;
+        System.out.println("Puerta cerrada");
     }
 
     // Procesar solicitud de un piso destino

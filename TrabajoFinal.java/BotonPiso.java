@@ -2,7 +2,7 @@ public class BotonPiso extends Boton {
     private int pisoActual;
 
     public BotonPiso(int id, EstadoAscensor tipo, int pisoActual) {
-        super(false, id, false, false, false, EstadoAscensor.PISO);
+        super(false, id, false, false, false, EstadoAscensor.Piso);
         this.pisoActual = pisoActual;
     }
 

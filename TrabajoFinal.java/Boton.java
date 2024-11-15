@@ -40,7 +40,7 @@ public abstract class Boton {
             presionado = true;
             iluminado = true;   // Encendemos el indicador luminoso
             sonidoAct = true;   // Activamos el sonido
-            System.out.println("Botón " + tipo + " con ID " + id + " ha sido presionado. Indicador luminoso activado y sonido activado.");
+            System.out.println("Botón " + tipo + " con ID " + id + " ha sido presionado. El indicador luminoso esta activo y el sonido se ha activado.");
         } else {
             System.out.println("Botón bloqueado, no se puede presionar.");
         }
@@ -51,7 +51,7 @@ public abstract class Boton {
             presionado = false;
             iluminado = false;  // Apagamos el indicador luminoso
             sonidoAct = false;  // Desactivamos el sonido
-            System.out.println("El botón con ID " + id + " ha sido soltado. Indicador luminoso desactivado y sonido desactivado.");
+            System.out.println("El botón con ID " + id + " ha sido soltado. El indicador luminoso se ha desactivado y el sonido tambien.");
         } else {
             System.out.println("El botón ya no estaba presionado.");
         }
