@@ -10,10 +10,10 @@ public class Piso {
     }
 
     public void presionarBotonSubir() {
-        botonSubir.presionar();
+        botonSubir.cambiarEstadoBoton(true);  // Llamada al nuevo método
     }
 
     public void presionarBotonBajar() {
-        botonBajar.presionar();
+        botonBajar.cambiarEstadoBoton(true);  // Llamada al nuevo método
     }
 }

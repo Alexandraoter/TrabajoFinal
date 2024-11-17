@@ -6,7 +6,7 @@ public abstract class Boton {
     private boolean bloqueado;
     private EstadoAscensor tipo;
 
-    public Boton(boolean sonidoAct, int id, boolean presionado, boolean iluminado, boolean bloqueado, EstadoAscensor tipo) {
+    public Boton(int id, EstadoAscensor tipo) {
         this.sonidoAct = false;
         this.id = id;
         this.presionado = false;
@@ -35,25 +35,22 @@ public abstract class Boton {
         return tipo;
     }
 
-    public void presionar() {
-        if (!bloqueado) {
-            presionado = true;
-            iluminado = true;   // Encendemos el indicador luminoso
-            sonidoAct = true;   // Activamos el sonido
-            System.out.println("Botón " + tipo + " con ID " + id + " ha sido presionado. El indicador luminoso esta activo y el sonido se ha activado.");
-        } else {
-            System.out.println("Botón bloqueado, no se puede presionar.");
-        }
-    }
 
-    public void soltar() {
-        if (presionado) {
-            presionado = false;
-            iluminado = false;  // Apagamos el indicador luminoso
-            sonidoAct = false;  // Desactivamos el sonido
-            System.out.println("El botón con ID " + id + " ha sido soltado. El indicador luminoso se ha desactivado y el sonido tambien.");
-        } else {
-            System.out.println("El botón ya no estaba presionado.");
+        public void cambiarEstadoBoton(boolean presionar) {
+            if (presionar) {
+                if (!bloqueado) {
+                    this.presionado = true;
+                    this.iluminado = true;   // Encendemos el indicador luminoso
+                    this.sonidoAct = true;   // Activamos el sonido
+                    System.out.println("Botón del " + tipo + " - " + id + " ha sido presionado. El indicador luminoso está activo y el sonido se ha activado.");
+                }
+            } else {
+                if (this.presionado) {
+                    this.presionado = false;
+                    this.iluminado = false;  // Apagamos el indicador luminoso
+                    this.sonidoAct = false;  // Desactivamos el sonido
+                    System.out.println("El botón con ID " + id + " ha sido soltado. El indicador luminoso se ha desactivado y el sonido también.");
+                }
+            }
         }
-    }
 }

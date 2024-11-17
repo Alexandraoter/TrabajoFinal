@@ -3,7 +3,12 @@ public class Puerta {
     private boolean obstaculoPresente;
 
     public Puerta() {
+        this.abierta = false;
         this.obstaculoPresente = false;
+    }
+
+    public boolean estaAbierta() {
+        return abierta;
     }
 
     public boolean isObstaculoPresente() { 
@@ -20,24 +25,24 @@ public class Puerta {
         System.out.println("Obstáculo removido de la puerta."); 
     }
 
-    public void abrir() {
-        abierta = true;
+    public void abrir(){
+            abierta = true;   
     }
+    
 
     // Método para cerrar la puerta
     public void cerrar() {
         if (obstaculoPresente){
-            System.out.println("No se puede cerrar la puerta, obstáculo detectado");
-
-        }else{
-            System.out.println("Cerrando puerta");
+            abierta= false;
             System.out.println("Puerta cerrada");
-            obstaculoPresente = false;
+
+        }else if (obstaculoPresente){
+            System.out.println("No se puede cerrar la puerta hay un obstáculo");
         }
     }
     
-    public boolean estaFuncionando() {
-        return true; // Ejemplo de verificación del funcionamiento
+    public boolean isFuncionando() {
+        return true; 
     }
 
     public boolean isAbierta() {

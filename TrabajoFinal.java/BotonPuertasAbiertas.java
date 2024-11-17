@@ -1,19 +1,27 @@
 public class BotonPuertasAbiertas extends Boton {
-
     private Ascensor ascensor;
 
-    // Constructor con parámetros simplificados
+    // Constructor de BotonPuertasAbiertas
     public BotonPuertasAbiertas(int id, Ascensor ascensor) {
-        // Llamada al constructor de la clase base Boton (con valores predeterminados o adecuados)
-        super(false,id, false, false, false, EstadoAscensor.Piso);
+        super(id, EstadoAscensor.Piso); // Llamamos al constructor correcto de la clase base Boton
         this.ascensor = ascensor;
     }
 
+    // Sobrescribir el método cambiarEstadoBoton en lugar de presionar
     @Override
-    public void presionar() {
-        super.presionar(); // Llamada al método presionar de la clase base Boton
-        System.out.println("Botón de puertas abiertas presionado.");
-        ascensor.alternarPuertas();  // Llamada al método que alterna entre abrir y cerrar las puertas
+    public void cambiarEstadoBoton(boolean presionar) {
+        super.cambiarEstadoBoton(presionar);  // Llamamos al método de la clase base
+
+        if (presionar) {
+            System.out.println("Botón de puertas abiertas presionado.");
+            // Verificar el estado actual de las puertas y actuar en consecuencia
+            if (ascensor.getPuerta().estaAbierta()) {
+                ascensor.getPuerta().cerrar(); // Cerrar la puerta si está abierta
+            } else {
+                ascensor.getPuerta().abrir(); // Abrir la puerta si está cerrada
+            }
+        }
     }
 }
+
 

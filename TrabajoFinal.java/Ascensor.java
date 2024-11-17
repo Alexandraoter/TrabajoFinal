@@ -1,20 +1,56 @@
+import java.util.Queue;
+import java.util.LinkedList;
+
 public class Ascensor {
+    private int id;  // Identificador único del ascensor
     private int pisoActual;
     private boolean subiendo;
     private Puerta puerta;
     private Botonera botonera;
     private EstadoAscensor estado;
     private boolean puertasAbiertas;
+    private Queue<Solicitud> solicitudesPendientes;
+    private boolean disponible;
+    private BotonPuertasAbiertas botonPuertasAbiertas; 
+    private int pisoAnterior;
 
-    // Agregar un botón especial para mantener las puertas abiertas
-    private Boton botonPuertasAbiertas;
+    // Clase interna para manejar las solicitudes del ascensor
+    public static class Solicitud {
+        int pisoActual;
+        int pisoDestino;
+        long tiempoSolicitud;
 
-    public Ascensor(int pisoActual, Puerta puerta, int cantidadPisos) {
+        public Solicitud(int pisoActual, int pisoDestino) {
+            this.pisoActual = pisoActual;
+            this.pisoDestino = pisoDestino;
+            this.tiempoSolicitud = System.currentTimeMillis();
+        }
+
+        public int getPisoActual() {
+            return pisoActual;
+        }
+
+        public int getPisoDestino() {
+            return pisoDestino;
+        }
+
+        @Override
+    public String toString() {
+        return "Solicitud [pisoActual=" + pisoActual + ", pisoDestino=" + pisoDestino + "]";
+    }
+
+    }
+
+    public Ascensor(int id, int pisoActual, Puerta puerta, int cantidadPisos) {
+        this.id = id;
         this.pisoActual = pisoActual;
         this.puerta = puerta;
-        this.botonera = new Botonera(cantidadPisos); // Inicializa la botonera del ascensor
-        this.estado = EstadoAscensor.PARADO;
+        this.botonera = new Botonera(cantidadPisos);
+        this.estado = EstadoAscensor.Piso;
         this.puertasAbiertas = false;
+        this.solicitudesPendientes = new LinkedList<>();
+        this.disponible = true;
+        this.pisoAnterior = pisoActual;
 
         // Inicializar los botones para cada piso
         for (int i = 1; i <= cantidadPisos; i++) {
@@ -23,8 +59,32 @@ public class Ascensor {
         }
 
         // Inicializar el botón para mantener las puertas abiertas
-        this.botonPuertasAbiertas = new BotonPuertasAbiertas(999, this); // ID 999 para el botón especial
+        this.botonPuertasAbiertas = new BotonPuertasAbiertas(999, this);
         botonera.agregarBoton(botonPuertasAbiertas);
+    }
+
+    // Métodos para control de puerta
+    public void abrirPuerta() {
+        if (!puertasAbiertas) {
+            puerta.abrir();
+            puertasAbiertas = true;
+            System.out.println("Ascensor " + id + ": Puerta abierta");
+        }
+    }
+
+    public void cerrarPuerta() {
+        if (!puerta.isObstaculoPresente()) {
+            puerta.cerrar();
+            puertasAbiertas = false;
+            System.out.println("Ascensor " + id + ": Puerta cerrada");
+        } else {
+            System.out.println("Ascensor " + id + ": No se puede cerrar la puerta, hay un obstáculo");
+        }
+    }
+
+    // Getters necesarios
+    public int getId() {
+        return id;
     }
 
     public int getPisoActual() {
@@ -35,43 +95,86 @@ public class Ascensor {
         return puerta;
     }
 
-    public Botonera getBotonera() {
+    public Botonera getBotonera(){
         return botonera;
     }
 
-    public void alternarPuertas() {
-        if (puertasAbiertas) {
-            cerrarPuerta();
+    public boolean estaDisponible() {
+        return disponible && estado == EstadoAscensor.Piso;
+    }
+
+    public int getCantidadSolicitudesPendientes() {
+        return solicitudesPendientes.size();
+    }
+
+    public Queue<Solicitud> getSolicitudesPendientes() {
+        return solicitudesPendientes;
+    }
+
+    public void agregarSolicitudPendiente(Solicitud solicitud) {
+        solicitudesPendientes.add(solicitud);
+    }
+
+    public void moverAPisoSeguro() {
+        disponible = false;
+        estado = EstadoAscensor.Piso;
+        abrirPuerta();
+    }
+
+
+
+    public void addSolicitud(Solicitud solicitud) {
+        // Verificar si ya existe una solicitud igual en la cola
+        if (!existeSolicitudDuplicada(solicitud)) {
+            solicitudesPendientes.add(solicitud);  // Si no es duplicada, la agregamos
         } else {
-            abrirPuerta();
+            System.out.println("Solicitud duplicada, no se añadirá.");
         }
     }
 
-    public void activarPuertasAbiertas() {
-        if (!puertasAbiertas) {
-            abrirPuerta();
-        } else {
-            System.out.println("Las puertas ya están abiertas.");
+    public boolean existeSolicitudDuplicada(Solicitud nuevSolicitud) {
+        // Recorre la cola de solicitudes pendientes del ascensor
+        for (Solicitud solicitud : solicitudesPendientes) {
+            if (solicitud.getPisoActual() == nuevSolicitud.getPisoActual() &&
+            solicitud.getPisoDestino() == nuevSolicitud.getPisoDestino()) {
+                return true;  // Si la solicitud ya esta en la cola
+            }
         }
+        return false;  // Si no hay solicitud duplicada
     }
 
-    public void desactivarPuertasAbiertas() {
-        if (puertasAbiertas) {
-            cerrarPuerta();
+
+    // Método mejorado para procesar solicitudes
+    public void procesarSolicitud( int pisoDestino) {
+        // Si la solicitud es para el mismo piso en el que ya está, no hace nada
+        if (pisoDestino == pisoActual) {
+            System.out.println("El ascensor ya se encuentra en el piso " + pisoDestino);
+            return;
+        }
+
+        disponible = false;
+        moverAlPiso(pisoDestino);
+
+        // Procesar siguiente solicitud pendiente si existe
+        if (!solicitudesPendientes.isEmpty()) {
+            Solicitud siguienteSolicitud = solicitudesPendientes.poll();
+            procesarSolicitud(siguienteSolicitud.getPisoDestino());
         } else {
-            System.out.println("Las puertas ya están cerradas.");
+            disponible = true;
         }
     }
+    
 
-    // Método para mover el ascensor hacia el piso destino
+    // Método mejorado para mover el ascensor
     public void moverAlPiso(int pisoDestino) {
         if (pisoDestino < 0 || pisoDestino > botonera.getCantidadPisos()) {
             System.out.println("Error: piso incorrecto, intenta nuevamente");
             return;
         }
 
+        // Si ya está en el piso destino, no hace nada
         if (pisoDestino == pisoActual) {
-            System.out.println("Ya se encuentra en el piso solicitado.");
+            System.out.println("Ascensor " + id + " ya se encuentra en el piso solicitado.");
             return;
         }
 
@@ -79,55 +182,41 @@ public class Ascensor {
         if (pisoDestino > pisoActual) {
             subiendo = true;
             estado = EstadoAscensor.MOVIENDO;
-            cerrarPuerta();  // Asegurar que la puerta se cierra antes de moverse
-            System.out.println("El ascensor está subiendo al piso " + pisoDestino);
-            pisoActual = pisoDestino;  // Actualizamos el piso actual
-            System.out.println("El ascensor ha llegado al piso " + pisoActual);
-            abrirPuerta();  // Asegurar que la puerta se abre al llegar
+            cerrarPuerta();
+            System.out.println("Ascensor " + id + " está subiendo al piso " + pisoDestino);
+            pisoActual = pisoDestino;
+            System.out.println("Ascensor " + id + " ha llegado al piso " + pisoActual);
+            abrirPuerta();
         }
         // Si el destino es más bajo
         else if (pisoDestino < pisoActual) {
             subiendo = false;
             estado = EstadoAscensor.MOVIENDO;
-            cerrarPuerta();  // Asegurar que la puerta se cierra antes de moverse
-            System.out.println("El ascensor está bajando al piso " + pisoDestino);
-            pisoActual = pisoDestino;  // Actualizamos el piso actual
-            System.out.println("El ascensor ha llegado al piso " + pisoActual);
-            abrirPuerta();  // Asegurar que la puerta se abre al llegar
+            cerrarPuerta();
+            System.out.println("Ascensor " + id + " está bajando al piso " + pisoDestino);
+            pisoActual = pisoDestino;
+            System.out.println("Ascensor " + id + " ha llegado al piso " + pisoActual);
+            abrirPuerta();
         }
-        // Si ya está en el piso destino
-        else {
-            System.out.println("El ascensor ya está en el piso " + pisoDestino);
-        }
+
+        estado = EstadoAscensor.Piso;
     }
 
-    // Método para abrir las puertas
-    public void abrirPuerta() {
-        if (!puertasAbiertas) {
-            puerta.abrir();
-            puertasAbiertas = true;
-            System.out.println("Puerta abierta");
+
+    public boolean esSolicitudDuplicada(int pisoOrigen, int pisoDestino) {
+        // Itera sobre la cola de solicitudes pendientes
+        for (Solicitud solicitud : solicitudesPendientes) {
+            if (solicitud.getPisoActual() == pisoOrigen && solicitud.getPisoDestino() == pisoDestino) {
+                return true;  // Si ya existe una solicitud igual, retorna verdadero
+            }
         }
+        return false;  // Si no se encuentra ninguna solicitud duplicada, retorna falso
     }
+    
 
-    // Método para cerrar las puertas
-    public void cerrarPuerta() {
-        if (!puerta.isObstaculoPresente()) {
-            puerta.cerrar();
-            puertasAbiertas = false;
-        }else{
-            System.out.println("No se puede cerrar la puerta, se ha detectado un obstáculo ");
-        }
-    }
-
-    // Procesar solicitud de un piso destino
-    public void procesarSolicitud(int pisoDestino) {
-        moverAlPiso(pisoDestino);  // Mueve el ascensor al piso destino
-    }
-
-    // Detener el ascensor
+    // Método para detener el ascensor
     public void parar() {
-        estado = EstadoAscensor.PARADO;
-        System.out.println("El ascensor se ha detenido en el piso " + pisoActual);
+        estado = EstadoAscensor.Piso;
+        System.out.println("Ascensor " + id + " se ha detenido en el piso " + pisoActual);
     }
 }

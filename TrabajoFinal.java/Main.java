@@ -1,36 +1,36 @@
 public class Main {
     public static void main(String[] args) {
-        // Crear un sistema de control con 5 pisos 
-        SistemaControl sistemaControl = new SistemaControl(5, 1);
+        // Crear un sistema de control con 5 pisos y 3 ascensores
+        SistemaControl sistemaControl = new SistemaControl(5, 2);
 
-        // Obtener el primer ascensor del sistema
+        // Obtener los primeros dos ascensores del sistema
         Ascensor ascensor1 = sistemaControl.getAscensores().get(0);
-        
+        Ascensor ascensor2 = sistemaControl.getAscensores().get(1);
 
         // Simular solicitudes de ascensor
-        System.out.println("\n Solicitud 1: Piso 1 -> Piso 3 ");
-        activarIndicadores(ascensor1, 1, 3);
-        sistemaControl.solicitarAscensor(1, 3);
-        ascensor1.moverAlPiso(3);
-        ascensor1.cerrarPuerta();
+        System.out.println("\n Solicitud 1: Ascensor 3, Piso 2 -> Piso 3 ");
+        sistemaControl.solicitarAscensor(3, 2, 3);
 
-        System.out.println("\n Solicitud 2: Piso 2 -> Piso 2 ");
+        System.out.println("\n Solicitud 2: Piso 1 -> Piso 3 ");
+        activarIndicadores(ascensor2, 1, 3);
+        sistemaControl.solicitarAscensor(1, 1, 3);
+        ascensor2.cerrarPuerta();
+
+        System.out.println("\n Solicitud 3: Piso 2 -> Piso 2 ");
         activarIndicadores(ascensor1, 2, 2);
-        sistemaControl.solicitarAscensor(2, 2);
-        ascensor1.moverAlPiso(2);
-        ascensor1.cerrarPuerta();
-        
-        System.out.println("\n Solicitud 3: Piso -1 -> Piso 4 ");
-        sistemaControl.solicitarAscensor(-1, 4);
+        sistemaControl.solicitarAscensor(2, 2, 2);
 
-        System.out.println("\n Solicitud 4: Piso 2 -> Piso 8 ");
-        sistemaControl.solicitarAscensor(2, 8);
+        // Simulando una solicitud con un piso incorrecto
+        System.out.println("\n Solicitud 4: Piso -1 -> Piso 4 ");
+        sistemaControl.solicitarAscensor(2, -1, 4);
 
-        System.out.println("\n Solicitud 5: Piso 2 -> Piso 4 ");
-        activarIndicadores(ascensor1, 2, 4);
-        sistemaControl.solicitarAscensor(2, 4);
-        ascensor1.moverAlPiso(4);
-        mantenerPuertasAbiertas(ascensor1);
+        System.out.println("\n Solicitud 5: Piso 5 -> Piso 8 ");
+        sistemaControl.solicitarAscensor(1, 5, 8);
+
+        System.out.println("\n Solicitud 6: Piso 2 -> Piso 4 ");
+        activarIndicadores(ascensor2, 2, 4);
+        sistemaControl.solicitarAscensor(2, 2, 4);
+        mantenerPuertasAbiertas(ascensor2);
 
         // Simular un obstáculo durante el cierre de la puerta
         System.out.println("\nSimulación de obstáculo en la puerta ");
@@ -39,31 +39,26 @@ public class Main {
         ascensor1.getPuerta().limpiarObstaculo();
         ascensor1.cerrarPuerta();
 
-        System.out.println("\n Solicitud 6: Piso 3 -> Piso 1 ");
+        System.out.println("\n Solicitud 7: Piso 3 -> Piso 1 ");
         activarIndicadores(ascensor1, 3, 1);
-        sistemaControl.solicitarAscensor(3, 1);
-        ascensor1.moverAlPiso(1);
+        sistemaControl.solicitarAscensor(1, 3, 1);
         mantenerPuertasAbiertas(ascensor1);
         desactivarPuertasAbiertas(ascensor1);
-        
-        System.out.println("\n Solicitud 6: Piso 4 -> Piso 2 ");
-        sistemaControl.solicitarAscensor(4, 2);
-        activarIndicadores(ascensor1, 4, 2);
-        mantenerPuertasAbiertas(ascensor1);
 
-        System.out.println("\n** Solicitud 7: Piso 5 -> Piso 3 **");
-        sistemaControl.solicitarAscensor(5, 3);
-        activarIndicadores(ascensor1, 5, 3);
-        mantenerPuertasAbiertas(ascensor1);
-        desactivarPuertasAbiertas(ascensor1);
-        
-        
+        System.out.println("\n Solicitud 8: Piso 4 -> Piso 2 ");
+        sistemaControl.solicitarAscensor(2, 4, 2);
+        activarIndicadores(ascensor2, 4, 2);
+        mantenerPuertasAbiertas(ascensor2);
+
+
         System.out.println("//-----------------------------------------------------------------------------------------------------------------------");
+
         // Realizar una emergencia
         System.out.println("\nSimulando emergencia...");
         sistemaControl.gestionarEmergencia();
         ascensor1.parar();
 
+        // Mensaje de emergencia
         System.out.println("Mensaje de emergencia");
         sistemaControl.generarAlerta("Ascensor en estado de emergencia");
         ascensor1.parar();
@@ -73,10 +68,10 @@ public class Main {
         sistemaControl.monitorearSistema();
 
         // Solicitar el ascensor nuevamente después de la emergencia
-        System.out.println("\n Solicitud 8: Piso 2 -> Piso 5 ");
+        System.out.println("\n Solicitud 9: Piso 2 -> Piso 5 ");
         if (!sistemaControl.estaEnEmergencia()) {
             activarIndicadores(ascensor1, 2, 5);
-            sistemaControl.solicitarAscensor(2, 5);
+            sistemaControl.solicitarAscensor(1, 2, 5);  // Cambié el piso de origen para no confundirlo
             ascensor1.moverAlPiso(5);
             mantenerPuertasAbiertas(ascensor1);
         } else {
@@ -90,10 +85,10 @@ public class Main {
         Boton botonDestino = ascensor.getBotonera().getBotonPorPiso(pisoDestino);
 
         if (botonOrigen != null) {
-            botonOrigen.presionar();
+            botonOrigen.cambiarEstadoBoton(true);
         }
         if (botonDestino != null) {
-            botonDestino.presionar();
+            botonDestino.cambiarEstadoBoton(true);
         }
 
         // Esperamos a que el ascensor termine su movimiento
@@ -104,10 +99,10 @@ public class Main {
         }
 
         if (botonOrigen != null) {
-            botonOrigen.soltar();
+            botonOrigen.cambiarEstadoBoton(false);;
         }
         if (botonDestino != null) {
-            botonDestino.soltar();
+            botonDestino.cambiarEstadoBoton(false);;
         }
     }
 
@@ -118,9 +113,9 @@ public class Main {
         System.out.println("Las puertas permanecerán abiertas.");
     }
 
-    private static void desactivarPuertasAbiertas(Ascensor ascensor){
-        System.out.println("El boton para desactivar las puertas ha sido presionado");
+    private static void desactivarPuertasAbiertas(Ascensor ascensor) {
+        System.out.println("El botón para desactivar las puertas ha sido presionado");
         ascensor.cerrarPuerta();
-        System.out.println("Las puertas estan cerradas");
+        System.out.println("Las puertas están cerradas.");
     }
 }

@@ -11,13 +11,9 @@ public class Botonera {
       
     }
 
-    
-
     public int getCantidadPisos() {
         return cantidadPisos;
     }
-
-
 
     public void agregarBoton(Boton boton) {
         botones.add(boton);
@@ -37,7 +33,4 @@ public class Botonera {
                 .orElse(null);
     }
 
-    public List<Boton> getTodosLosBotones() {
-        return botones;
-    }
 }
