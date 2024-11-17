@@ -7,7 +7,9 @@ public class Main {
         Ascensor ascensor1 = sistemaControl.getAscensores().get(0);
         Ascensor ascensor2 = sistemaControl.getAscensores().get(1);
 
-        // Simular solicitudes de ascensor
+        
+        //SIMULACION
+
         System.out.println("\n Solicitud 1: Ascensor 3, Piso 2 -> Piso 3 ");
         sistemaControl.solicitarAscensor(3, 2, 3);
 
