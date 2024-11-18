@@ -7,8 +7,7 @@ public class Botonera {
 
     public Botonera(int cantidadPisos) { 
         botones = new ArrayList<>();
-        this.botones = new ArrayList<>(); this.cantidadPisos = cantidadPisos;
-      
+        this.cantidadPisos = cantidadPisos;
     }
 
     public int getCantidadPisos() {
