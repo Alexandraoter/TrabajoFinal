@@ -44,8 +44,4 @@ public class Puerta {
     public boolean isFuncionando() {
         return true; 
     }
-
-    public boolean isAbierta() {
-        return abierta;
-    }
 }
