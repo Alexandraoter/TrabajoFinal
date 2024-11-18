@@ -82,7 +82,7 @@ public class Ascensor {
         }
     }
 
-    // Getters necesarios
+    
     public int getId() {
         return id;
     }
@@ -202,7 +202,7 @@ public class Ascensor {
         estado = EstadoAscensor.Piso;
     }
 
-
+    
     public boolean esSolicitudDuplicada(int pisoOrigen, int pisoDestino) {
         // Itera sobre la cola de solicitudes pendientes
         for (Solicitud solicitud : solicitudesPendientes) {
