@@ -12,7 +12,7 @@ public class Ascensor {
     private Queue<Solicitud> solicitudesPendientes;
     private boolean disponible;
     private BotonPuertasAbiertas botonPuertasAbiertas; 
-    private int pisoAnterior;
+   
 
     // Clase interna para manejar las solicitudes del ascensor
     public static class Solicitud {
@@ -34,6 +34,7 @@ public class Ascensor {
             return pisoDestino;
         }
 
+        //útil para depuración
         @Override
     public String toString() {
         return "Solicitud [pisoActual=" + pisoActual + ", pisoDestino=" + pisoDestino + "]";
@@ -50,7 +51,7 @@ public class Ascensor {
         this.puertasAbiertas = false;
         this.solicitudesPendientes = new LinkedList<>();
         this.disponible = true;
-        this.pisoAnterior = pisoActual;
+        
 
         // Inicializar los botones para cada piso
         for (int i = 1; i <= cantidadPisos; i++) {
@@ -121,17 +122,6 @@ public class Ascensor {
         abrirPuerta();
     }
 
-
-
-    public void addSolicitud(Solicitud solicitud) {
-        // Verificar si ya existe una solicitud igual en la cola
-        if (!existeSolicitudDuplicada(solicitud)) {
-            solicitudesPendientes.add(solicitud);  // Si no es duplicada, la agregamos
-        } else {
-            System.out.println("Solicitud duplicada, no se añadirá.");
-        }
-    }
-
     public boolean existeSolicitudDuplicada(Solicitud nuevSolicitud) {
         // Recorre la cola de solicitudes pendientes del ascensor
         for (Solicitud solicitud : solicitudesPendientes) {
@@ -142,6 +132,17 @@ public class Ascensor {
         }
         return false;  // Si no hay solicitud duplicada
     }
+
+    public void addSolicitud(Solicitud solicitud) {
+        // Verificar si ya existe una solicitud igual en la cola
+        if (!existeSolicitudDuplicada(solicitud)) {
+            solicitudesPendientes.add(solicitud);  // Si no es duplicada, la agregamos
+        } else {
+            System.out.println("Solicitud duplicada, no se añadirá.");
+        }
+    }
+
+    
 
 
     // Método mejorado para procesar solicitudes
@@ -201,18 +202,6 @@ public class Ascensor {
 
         estado = EstadoAscensor.Piso;
     }
-
-    
-    public boolean esSolicitudDuplicada(int pisoOrigen, int pisoDestino) {
-        // Itera sobre la cola de solicitudes pendientes
-        for (Solicitud solicitud : solicitudesPendientes) {
-            if (solicitud.getPisoActual() == pisoOrigen && solicitud.getPisoDestino() == pisoDestino) {
-                return true;  // Si ya existe una solicitud igual, retorna verdadero
-            }
-        }
-        return false;  // Si no se encuentra ninguna solicitud duplicada, retorna falso
-    }
-    
 
     // Método para detener el ascensor
     public void parar() {

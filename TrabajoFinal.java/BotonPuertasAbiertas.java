@@ -1,7 +1,6 @@
 public class BotonPuertasAbiertas extends Boton {
     private Ascensor ascensor;
 
-    // Constructor de BotonPuertasAbiertas
     public BotonPuertasAbiertas(int id, Ascensor ascensor) {
         super(id, EstadoAscensor.Piso); // Llamamos al constructor correcto de la clase base Boton
         this.ascensor = ascensor;

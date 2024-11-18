@@ -1,7 +1,7 @@
 public class BotonPiso extends Boton {
     private int pisoActual;
 
-    // Constructor de BotonPiso
+
     public BotonPiso(int id, EstadoAscensor tipo, int pisoActual) {
         super(id, tipo);  // Llamamos al constructor correcto de la clase base
         this.pisoActual = pisoActual;
