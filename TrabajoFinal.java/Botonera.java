@@ -19,17 +19,26 @@ public class Botonera {
     }
 
     public Boton getBotonPorPiso(int piso) {
-        return botones.stream()
-                .filter(boton -> boton instanceof BotonAscensor && ((BotonAscensor) boton).getPisoDestino() == piso)
-                .findFirst()
-                .orElse(null);
+        for (Boton boton : botones) {
+            if (boton instanceof BotonAscensor) {
+                BotonAscensor botonAscensor = (BotonAscensor) boton;
+                if (botonAscensor.getPisoDestino() == piso) {
+                    return botonAscensor;  // Retorna el botón encontrado
+                }
+            }
+        }
+        return null;  // Si no se encuentra el botón, retorna null
     }
+    
 
     public Boton getBotonPorId(int id) {
-        return botones.stream()
-                .filter(boton -> boton.getId() == id)
-                .findFirst()
-                .orElse(null);
+        for (Boton boton : botones) {
+            if (boton.getId() == id) {
+                return boton;
+            }
+        }
+        return null;
+        
     }
 
 }
