@@ -18,6 +18,7 @@ public class Botonera {
         botones.add(boton);
     }
 
+    //Este método busca un botón en la lista botones que corresponda a un piso específico.
     public Boton getBotonPorPiso(int piso) {
         for (Boton boton : botones) {
             if (boton instanceof BotonAscensor) {
@@ -31,6 +32,7 @@ public class Botonera {
     }
     
 
+    //Este método busca un botón en la lista botones basándose en el ID del botón.
     public Boton getBotonPorId(int id) {
         for (Boton boton : botones) {
             if (boton.getId() == id) {
