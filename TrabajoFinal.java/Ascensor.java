@@ -127,10 +127,10 @@ public class Ascensor {
         for (Solicitud solicitud : solicitudesPendientes) {
             if (solicitud.getPisoActual() == nuevSolicitud.getPisoActual() &&
             solicitud.getPisoDestino() == nuevSolicitud.getPisoDestino()) {
-                return true;  // Si la solicitud ya esta en la cola
+                return true;  // La solicitud es duplicada
             }
         }
-        return false;  // Si no hay solicitud duplicada
+        return false;  // no es una solicitud duplicada
     }
 
     public void addSolicitud(Solicitud solicitud) {
@@ -141,30 +141,6 @@ public class Ascensor {
             System.out.println("Solicitud duplicada, no se añadirá.");
         }
     }
-
-    
-
-
-    // Método mejorado para procesar solicitudes
-    public void procesarSolicitud( int pisoDestino) {
-        // Si la solicitud es para el mismo piso en el que ya está, no hace nada
-        if (pisoDestino == pisoActual) {
-            System.out.println("El ascensor ya se encuentra en el piso " + pisoDestino);
-            return;
-        }
-
-        disponible = false;
-        moverAlPiso(pisoDestino);
-
-        // Procesar siguiente solicitud pendiente si existe
-        if (!solicitudesPendientes.isEmpty()) {
-            Solicitud siguienteSolicitud = solicitudesPendientes.poll();
-            procesarSolicitud(siguienteSolicitud.getPisoDestino());
-        } else {
-            disponible = true;
-        }
-    }
-    
 
     // Método mejorado para mover el ascensor
     public void moverAlPiso(int pisoDestino) {
@@ -201,6 +177,27 @@ public class Ascensor {
         }
 
         estado = EstadoAscensor.Piso;
+    }
+
+
+    // Método mejorado para procesar solicitudes
+    public void procesarSolicitud( int pisoDestino) {
+        // Si la solicitud es para el mismo piso en el que ya está, no hace nada
+        if (pisoDestino == pisoActual) {
+            System.out.println("El ascensor ya se encuentra en el piso " + pisoDestino);
+            return;
+        }
+
+        disponible = false;
+        moverAlPiso(pisoDestino);
+
+        // Procesar siguiente solicitud pendiente si existe
+        if (!solicitudesPendientes.isEmpty()) {
+            Solicitud siguienteSolicitud = solicitudesPendientes.poll();
+            procesarSolicitud(siguienteSolicitud.getPisoDestino());
+        } else {
+            disponible = true;
+        }
     }
 
     // Método para detener el ascensor

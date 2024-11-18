@@ -41,12 +41,11 @@ public class Main {
         ascensor1.getPuerta().limpiarObstaculo();
         ascensor1.cerrarPuerta();
 
-
-        System.out.println("\n Solicitud 6: Piso 4 -> Piso 2 ");
-        sistemaControl.solicitarAscensor(2, 4, 2);
-        activarIndicadores(ascensor2, 4, 2);
-        mantenerPuertasAbiertas(ascensor2);
-
+        System.out.println("\nSimulación de obstáculo en la puerta ");
+        ascensor2.getPuerta().detectarObstaculo();
+        ascensor2.cerrarPuerta();
+        ascensor2.getPuerta().limpiarObstaculo();
+        ascensor2.cerrarPuerta();
 
         System.out.println("//-----------------------------------------------------------------------------------------------------------------------");
 
@@ -65,7 +64,7 @@ public class Main {
         sistemaControl.monitorearSistema();
 
         // Solicitar el ascensor nuevamente después de la emergencia
-        System.out.println("\n Solicitud 7: Piso 2 -> Piso 5 ");
+        System.out.println("\n Solicitud 6: Piso 2 -> Piso 5 ");
         if (!sistemaControl.estaEnEmergencia()) {
             activarIndicadores(ascensor1, 2, 5);
             sistemaControl.solicitarAscensor(1, 2, 5);  // Cambié el piso de origen para no confundirlo
