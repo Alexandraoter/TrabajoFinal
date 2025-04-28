@@ -205,4 +205,4 @@ public class Ascensor {
         estado = EstadoAscensor.Piso;
         System.out.println("Ascensor " + id + " se ha detenido en el piso " + pisoActual);
     }
-}
+} //ya
